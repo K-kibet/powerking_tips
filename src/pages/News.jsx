@@ -1,10 +1,11 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useLayoutEffect} from 'react';
 import NewsItem from '../components/NewsItem/NewsItem';
 import { getNews } from '../firebase';
 import { Link, NavLink } from 'react-router-dom';
-import { Facebook, LinkedIn, NetworkWifi1Bar, X } from '@mui/icons-material';
+import { Facebook,  NetworkWifi1Bar, Telegram, X } from '@mui/icons-material';
 import { useLocation } from 'react-router-dom';
-import Loader from '../components/Loader/Loader';
+import Loader from '../components/Loader/Loader'
+import { socialLinks } from '../data';
 
 
 export default function News() {
@@ -18,6 +19,10 @@ export default function News() {
   const [isOnline] = useState(() =>{
     return navigator.onLine
   })
+
+  useLayoutEffect(() => {
+    window.scrollTo(0, 0)
+  });
   
   useEffect(() =>{
     getNews(currentPage * newsPerPage, category, setNews, setLoading);
@@ -26,7 +31,7 @@ export default function News() {
   useEffect(() => {
     loading && setTimeout(() => {
       setLoading(false);
-    }, 2000);
+    }, 3000);
   }, [loading]);
   
   const handleReload = () => {
@@ -36,21 +41,21 @@ export default function News() {
   useEffect(() => {
     location.search.split("=")[1] && setCategory(location.search.split("=")[1]);
   }, [location.search]);
- 
+
   return (
     <div className='news'>
       <div className="news-flyer">
-        <h1>Explore News</h1>
+        <h1>SPORTS TIMES</h1>
         <div className="order-categories">
           <NavLink title='all' to='?category=all' className={category === 'all' && "current"}>All</NavLink>
-          <NavLink title='finance' to='?category=finance' className={category === 'finance' && "current"}>Finance</NavLink>
-          <NavLink title='business' to='?category=business' className={category === 'business' && "current"}>Business</NavLink>
-          <NavLink title='statistics' to='?category=statistics' className={category === 'statistics' && "current"}>Statistics</NavLink>
+          <NavLink title='football' to='?category=football' className={category === 'football' && "current"}>Football</NavLink>
+          <NavLink title='betting' to='?category=betting' className={category === 'betting' && "current"}>Betting</NavLink>
+          <NavLink title='insights' to='?category=insights' className={category === 'insights' && "current"}>Insights</NavLink>
         </div>
         <div className="social">
-          <Link to='https://twitter.com/ancientpupy' title='twitter/@taxa_kenya' target='_blank'><X /></Link>
-          <Link to='https://www.linkedin.com/in/kibetkorir' title='linkedin/in/taxa-kenya' target='_blank'><LinkedIn /></Link>
-          <Link to='https://www.facebook.com/kibetkorirc' title='facebook/taxa-kenya' target='_blank'><Facebook /></Link>
+          <Link to={socialLinks.xPage} title='x(twitter)' target='_blank'><X /></Link>
+          <Link to={socialLinks.telegramChannel} title='telegram' target='_blank'><Telegram /></Link>
+          <Link to={socialLinks.facebookPage} title='facebook' target='_blank'><Facebook /></Link>
         </div>
       </div>
       <div className='post-container'>

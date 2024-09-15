@@ -15,12 +15,12 @@ const Newsletter = () => {
     useEffect(() => {
         error && setTimeout(() => {
           setError(null);
-        }, 1000);
+        }, 3000);
         
         success && setTimeout(() => {
           setSuccess(null);
           setEmail('');
-        }, 1000);
+        }, 3000);
       }, [error, success]);
     
     return (

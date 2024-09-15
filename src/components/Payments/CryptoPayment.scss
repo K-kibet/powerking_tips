@@ -1,0 +1,44 @@
+
+.crypto-payment {
+    background-color: var(--lite);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    h1 {
+        margin-bottom: 1.5rem;
+        color: var(--blue);
+    }
+    
+    .crypto-select, .txid-input, .amount-input {
+        margin-bottom: 1.5rem;
+    }
+    
+    label {
+        display: block;
+        margin-bottom: 0.5rem;
+    }
+    
+    select, input {
+        width: 100%;
+        padding: 0.75rem;
+        font-size: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        option{
+            position: relative;
+            &:hover{ 
+                border-color: var(--blue); 
+                color: var(--blue);
+            } 
+        }
+    }
+
+    
+    #successMessage {
+        margin-top: 1rem;
+        color: green;
+        font-weight: bold;
+        display: none;
+    }
+}

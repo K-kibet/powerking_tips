@@ -1,39 +1,41 @@
-import React from 'react';
-import './Featured.scss';
-import { NavLink } from 'react-router-dom';
+import React from 'react'
+import './Featured.scss'
+import Bitcoins from '../../assets/btc.png';
+import Visa from '../../assets/visa.jpg';
+import Mastercard from '../../assets/mastercard.png';
+import Mpesa from '../../assets/mpesa.png';
 
-import Taxa1 from '../../assets/taxa-finance.png';
-import Taxa2 from '../../assets/taxa-business.png';
-import Taxa3 from '../../assets/taxa-statistics.png';
-import Taxa4 from '../../assets/taxa-s4.png';
-
-
-const Featured = () => {
-    return (
-    <section className="featured" id='featured'>
-            <h1>How we collaborate</h1>
-            <h2>
-            The network’s integrated approach and value proposition are inspired by its commitment to comprehensive tax justice solutions for adoption by African countries. As collaborators, TAXA members and partners work together in:
-            </h2>
-        <div className="wrapper">
-            <NavLink to={''} className="item" title='community engagement'>
-                <img src={Taxa1} alt='taxa_community_engagements'/>
-                <h3 >Community engagement</h3>
-            </NavLink>
-            <NavLink to={''} className="item" title='taxa policy influencing'>
-                <img src={Taxa2} alt='taxa_policy_influencing'/>
-                <h3 >Policy influencing</h3>
-            </NavLink>
-            <NavLink to={''} className="item" title='taxa capacity building'>
-                <img src={Taxa3} alt='taxa_capacity_building'/>
-                <h3 >Capacity building</h3>
-            </NavLink>
-            <NavLink to={''} className="item" title='taxa awareness raising'>
-                <img src={Taxa4} alt='taxa_awareness_raising'/>
-                <h3 >Awareness-raising</h3>
-            </NavLink>
+export default function Featured() {
+  const data = [
+    {
+      title: "Crypto",
+      image: Bitcoins
+    },
+    {
+      title: "Mpesa",
+      image: Mpesa
+    },
+    {
+      title: "Visa",
+      image: Visa
+    },
+    {
+      title: "Mastercard",
+      image: Mastercard
+    }
+  ]
+  return (
+    <div className='featured'>
+      {
+        data.map(item => {
+          return  <div className="box">
+          <div className="imgBx">
+            <img src={item.image} alt={item.title}/>
+          </div>
+          <h2>{item.title}</h2>
         </div>
-    </section>
-    );
+        })
+      }
+    </div>
+  )
 }
-export default Featured;

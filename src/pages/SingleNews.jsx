@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import Image from '../assets/taxa.png';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
+import Image from '../assets/powerking_flyer.png';
 import { addNewsViews, getNews, getNewsItem } from '../firebase';
 import NewsItem from '../components/NewsItem/NewsItem';
 import Loader from '../components/Loader/Loader';
@@ -13,7 +13,8 @@ export default function SingleNews() {
   const [relatedNews, setRelatedNews] = useState([]);
   const [loading, setLoading] = useState(null);
   let location = useLocation();
-  
+
+
   const readingTime = (articleText) => {
       const wordsArray = articleText.split(' ');
       // Count the number of words in the array
@@ -31,8 +32,8 @@ export default function SingleNews() {
  };
   
   useEffect(() => {
-    getNewsItem(window.location.pathname.split('/news/')[1], setNews, setLoading);
-    addNewsViews(window.location.pathname.split('/news/')[1]);
+    getNewsItem(window.location.pathname.split('/blogs/')[1], setNews, setLoading);
+    addNewsViews(window.location.pathname.split('/blogs/')[1]);
     window.onscroll = () => {
       var windowTop = document.documentElement.scrollTop;
       var documentHeight = window.document.body.offsetHeight;//document.documentElement.clientHeight;
@@ -48,16 +49,18 @@ export default function SingleNews() {
   return (
     <div className='single-news'>
           
-          {news &&<Helmet>
+          {news && <Helmet>
             <meta charSet="utf-8" />
             <title>{news.title}</title>
             <link rel="canonical" href={window.location.hostname} />
             <base href={window.location.hostname}></base>
             <meta name="description" content={news.title}/>
             <meta name="keywords" content={`tax, business, policy, ${news.category}`}/>
-            <meta name="author" content="Taxa Kenya"/>
+            <meta name="author" content="POWERKING TIPS"/>
             <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
           </Helmet>}
+
+          
           <div className="scroll-line" style={{width: scroll + '%'}}></div>
           {news && <div className="wrapper">
             <img src={news.imageUrl ? news.imageUrl : Image} alt={truncateTitle(news.title, 5)} />

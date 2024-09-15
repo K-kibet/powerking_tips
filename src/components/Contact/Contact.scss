@@ -5,86 +5,12 @@
   align-items: center;
   justify-content: center;
   position: relative;
-      
-  .video{
-    object-fit: fill;
-    position: fixed;
-    right: 0;
-    bottom: 0;
-    min-width: 100%;
-    height: inherit;
-    z-index: -1;
-    opacity: .2;
   
-}
-  
-  .wrapper{
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-  }
-  
-  .contacts{
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    
-    > a{
-      color: var(--dark-blue);
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-
-      img{
-        width: 50px;
-        height: 50px;
-      }
-      
-      h1{
-        display: inline-block;
-        vertical-align: middle;
-        font-size: 22px;
-        margin-left: 10px;
-        span{
-          color: var(--grey);
-        }
-      }
-    }
-    
-    p{
-      text-align: center;
-      margin: 10px 0;
-      color: var(--grey);
-      font-size: 16px;
-      position: relative;
-
-      &:first-of-type:after {
-        content: "";
-        position: absolute;
-        width: 30px;
-        height: 1px;
-        background: var(--grey);
-        bottom: 0;
-        left: 0;
-      }
-
-      a{
-        color: var(--blue);
-        text-decoration: none;
-      }
-    } 
-  }
-
-
   form{
       width:100%;
       max-width: 600px;
       font-family: 'Lato';
       font-weight: 400;
-      padding: 10px 5px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -124,19 +50,11 @@
       
 
       textarea{
-          max-width: 600px;
+          max-width: 100%;
           min-height: 200px;
           @media screen and (max-width: 569px) {
             width: 100%;
           }
       }
-  }
-
-  //@media screen and (max-width: 693px){
-  @media screen and (max-width: 789px) {
-    .wrapper{
-      flex-direction: column;
-      justify-content: center;
-    }
   }
 }

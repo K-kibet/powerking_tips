@@ -1,11 +1,11 @@
 import { AddAPhoto, Forward} from '@mui/icons-material'
-import React, {useContext, useEffect, useState } from 'react';
+import React, {useContext, useEffect, useLayoutEffect, useState } from 'react';
 import { addNews, auth } from '../firebase';
 import { AuthContext } from '../AuthContext';
 import { NavLink } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
-import { Helmet } from 'react-helmet-async';
 import Loader from '../components/Loader/Loader';
+import AppHelmet from '../components/AppHelmet';
 
 export default function Admin() {
   const [error, setError] = useState(null);
@@ -15,6 +15,10 @@ export default function Admin() {
   const [category, setCategory] = useState('all');
   const {currentUser} = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
+
+  useLayoutEffect(() => {
+    window.scrollTo(0, 0)
+  });
   
   const handleSubmit = (e) => {
       e.preventDefault();
@@ -27,7 +31,7 @@ export default function Admin() {
   useEffect(() => {
       error && setTimeout(() => {
         setError(null);
-      }, 1000);
+      }, 3000);
     }, [error]);
     
     useEffect(() => {
@@ -43,13 +47,7 @@ export default function Admin() {
     };
   return (
     <div className='admin'>
-        <Helmet>
-            <meta charSet="utf-8" />
-            <title>Admin Taxa Kenya - Fair Taxes, Just Kenya: Unite for Equity and Accountability.</title>
-            <link rel="canonical" href={window.location.hostname} />
-            <base href={window.location.hostname}></base>
-            <meta name="description" content={"Taxa Kenya is dedicated to combating tax discrimination and injustices in Kenya. Through education, advocacy, and community engagement, we are committed to advocating for fair and equitable tax policies that benefit all citizens."}/>
-        </Helmet>
+        <AppHelmet title={"Admin Powerking Tips"}/>
         <h1>Post a blog <NavLink className='btn' onClick={handleLogOut}>Log Out</NavLink></h1>
         {!loading && <form onSubmit={handleSubmit}>
             <label htmlFor="title">post title:</label>
@@ -59,7 +57,7 @@ export default function Admin() {
                 <input type="file"  placeholder="enter post image" name='image' required onChange={(e) => {
                     setImage(e.target.files[0]);
                 }}/>
-                {image ? <img src={URL.createObjectURL(image)} alt="" /> : <>
+                {image ? <img src={URL.createObjectURL(image)} alt="upload_image" /> : <>
                     <h4>Click to browse</h4>
                     <p>or</p>
                     <h4>Drag and drop to upload</h4>
@@ -71,9 +69,9 @@ export default function Admin() {
             <select defaultValue={'all'} placeholder="Select option" id='category' name='category'
               onChange={(e) =>setCategory(e.target.value)}>
               <option value="all" >All</option>
-              <option value="business" >Business</option>
-              <option value="finance" >Finance</option>
-              <option value="statistics" >Statistics</option>
+              <option value="football" >Football</option>
+              <option value="betting" >Betting</option>
+              <option value="insights" >Insights</option>
             </select>
             <label htmlFor="description">post description:</label>
             <textarea placeholder="Write post content here..." name='description' id='description' required value={description} onChange={(e) => setDescription(e.target.value)}/>

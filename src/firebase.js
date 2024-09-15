@@ -1,18 +1,21 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { increment } from "firebase/database";
-import {addDoc, collection, doc, enableIndexedDbPersistence, getDoc, getDocs, getFirestore, limit, query, updateDoc, where, orderBy, setDoc } from "firebase/firestore";
+import {addDoc, collection, doc, getDoc, getDocs, getFirestore, limit, query, updateDoc, where, orderBy, setDoc } from "firebase/firestore";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { getAnalytics } from "firebase/analytics";
 
+
 const firebaseConfig = {
-    apiKey: "AIzaSyDw1QZnLlEWLOwk54uOTf5V6393KqAv6UY",
-    authDomain: "taxa-ca7ec.firebaseapp.com",
-    projectId: "taxa-ca7ec",
-    storageBucket: "taxa-ca7ec.appspot.com",
-    messagingSenderId: "66856931301",
-    appId: "1:66856931301:web:ee653d801cf12d2c9ca90c",
-    measurementId: "G-SCQ3L2C189"
+  apiKey: "AIzaSyANFhP14_BJOaImr50PiFoychlbR88JeXU",
+  authDomain: "powerking-betting-tips.firebaseapp.com",
+  databaseURL: "https://powerking-betting-tips-default-rtdb.firebaseio.com",
+  projectId: "powerking-betting-tips",
+  storageBucket: "powerking-betting-tips.appspot.com",
+  messagingSenderId: "617291483997",
+  appId: "1:617291483997:web:e3114cc5c5fa03d9d7b6b4",
+  measurementId: "G-57VGM61EY8"
+
 };
 
 const app = initializeApp(firebaseConfig);
@@ -32,6 +35,62 @@ export const signInUser = (email, password, setError) => {
   });
   return;
 }
+
+const addUser = async (data, setSuccess, setError) => {
+  const userDocRef = doc(db, "users", data.email);
+  const userDoc = await getDoc(userDocRef);
+  if (userDoc.exists()) {
+    return setError("The user already exists! Login insted.");
+  }
+  await setDoc(userDocRef, {...data}).then(async (response) => {
+    setSuccess(`User with ${data.email} has been registered successfully`)
+  }).catch(async (error) => {
+    const errorMessage = await error.message;
+    setError(errorMessage);
+  });
+  console.log(data)
+  return;
+};
+
+export const registerUser = (username, email, password, setSuccess, setError) => {
+  createUserWithEmailAndPassword(auth, email, password).then((userCredential) => {
+    const user = userCredential.user;
+    addUser({
+      email: user.email,
+      username: username,
+      isPremium: false, 
+      subscription: null
+    }, setSuccess, setError)
+  }).catch(async (error) => {
+    const errorMessage = await error.message;
+    setError(errorMessage);
+  });
+  return;
+}
+
+export const updateUser = async (userId, isPremium, subscription) => {
+  const usercollref = doc(db,'users', userId)
+  updateDoc(usercollref,{
+    isPremium, 
+    subscription,
+    subDate: new Date().toLocaleDateString()
+  } ).then(response => {
+    alert("updated")
+  }).catch(error =>{
+    console.log(error.message)
+  })
+}
+
+export const getuser = async (userId) => {
+  const userDocRef = doc(db, "users", userId);
+  const userDoc = await getDoc(userDocRef);
+  if (userDoc.exists()) {
+    console.log(userDoc.data())
+  } else{
+    console.log("This user was not found")
+  }
+  return;
+};
 
 export const getNews= async (pagination, category, setNews, setLoading) => {
   setLoading(true);
@@ -56,7 +115,7 @@ export const getNewsItem = async (newsId, setNewsItem, setLoading) => {
   setNewsItem(null);
   setLoading(true);
   const newsDocRef = doc(db, "news", newsId);
- const newsDoc = await getDoc(newsDocRef);
+  const newsDoc = await getDoc(newsDocRef);
   if (newsDoc.exists()) {
     setNewsItem({id: newsDoc.id, ...newsDoc.data()})
   }
@@ -108,9 +167,9 @@ export  const addNews = async (data, setError, setLoading) => {
   setLoading(true);
   const newsDocRef = collection(db, "news");
   if (data.image) {
-    const imageRef = ref(storage, `images/${data.image.name.split(" ").join("_")}`);
+    const imageRef = ref(storage, `blogs/${data.image.name.split(" ").join("_")}`);
     const metadata = {
-        contentType: 'image/jpeg',
+        contentType: 'blogs/jpeg',
     };
     await uploadBytes(imageRef, data.image, metadata).then((response) => {
       return getDownloadURL(response.ref);
@@ -122,7 +181,7 @@ export  const addNews = async (data, setError, setLoading) => {
         imageUrl: downloadURL,
         timestamp: new Date().toLocaleDateString()
       }).then(async (docRef) => {
-        window.location.replace(`/news/${docRef.id}`);
+        window.location.replace(`/blogs/${docRef.id}`);
       }).catch(async (error) => {
         setError(error.message);
         setLoading(false);
@@ -133,4 +192,22 @@ export  const addNews = async (data, setError, setLoading) => {
     setLoading(false);
   };
   
+};
+
+export const getTips= async (pagination, date, setTips, setLoading) => {
+  setLoading(true);
+  
+  const tipsCollectionRef = collection(db, "tips");
+  //var q = query(tipsCollectionRef, where("date", "==", new Date().toLocaleDateString()), orderBy("date", "desc"), limit(pagination));
+  var q = query(tipsCollectionRef, limit(pagination))//,  where('date', '==', date));
+
+  const tips = [];
+  await getDocs(q).then((data) => {
+    data.forEach((doc) => {
+     tips.push({id: doc.id,...doc.data()});
+    });
+  }).then(() => {
+    setTips(tips);
+    setLoading(false);
+  }).catch(err => setLoading(false));
 };

@@ -1,3 +1,10 @@
+$dark: #3b3b3b;//rgb(41, 39, 39);
+$white: rgb(242, 243, 242);
+$black: #131212;
+$grey: #7288a2;//#8198ae//7a7979//#4d5974
+$shadow: 0px 1px 2px -1px var(--dark),0px 1px 2px -1px var(--blue);
+$light-blue: #ebf4fc;//#d0ffc4;
+
 .footer{
     width: 100%;
     display: flex;
@@ -12,23 +19,196 @@
         justify-content: center;
         padding: 5px 0;
         flex-wrap: wrap;
-        
         .wrapper{
             min-width: 300px;
             display: flex;
             align-items: center;
             justify-content: space-evenly;
+            @media screen and (max-width: 480px){
+              &{
+                  min-width: 100%;
+              }
+            }
             a{
                 color: var(--dark);
+                
+                position: relative;
+                border-radius: 50%;
+                padding: 10px;
+                margin: 5px;
+                width: 35px;
+                height: 35px;
+                font-size: 18px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                background: $grey;
+                box-shadow: 0 10px 10px $shadow;
+                color: $white;
                 cursor: pointer;
                 *{
                     font-size: 24px;
                 }
+
+                .tooltip {
+                  position: absolute;
+                  top: -30px;
+                  font-size: 14px;
+                  color: $white;
+                  background: inherit;
+                  padding: 5px 8px;
+                  border-radius: 4px;
+                  opacity: 0;
+                  pointer-events: none;
+                  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+                  &::before {
+                    position: absolute;
+                    content: "";
+                    height: 4px;
+                    width: 4px;
+                    background: $white;
+                    bottom: -3px;
+                    left: 50%;
+                    transform: translate(-50%) rotate(45deg);
+                    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+                  }
+                }
+            }
+            .facebook{
+              &:hover{
+                background: #3b5999;
+                .tooltip{
+                  background: #3b5999;
+                  opacity: 1;
+                  &::before{
+                    background: #3b5999;
+                    color: $white;
+                  }
+                }
+              }
+            }
+          
+            .telegram{
+              &:hover{
+                background: #46c1f6;
+                .tooltip{
+                  background: #46c1f6;
+                  opacity: 1;
+                  &::before{
+                    background: #46c1f6;
+                    color: $white;
+                  }
+                }
+              }
+            }
+          
+            .instagram{
+              &:hover{
+                background: #e1306c;
+                .tooltip{
+                  background: #e1306c;
+                  opacity: 1;
+                  &::before{
+                    background: #e1306c;
+                    color: $white;
+                  }
+                }
+              }
+            }
+          
+            .x{   
+              &:hover{
+                background: #333333;
+                .tooltip{
+                  background: #333333;
+                  opacity: 1;
+                  &::before{
+                    background: #333333;
+                    color: $white;
+                  }
+                }
+              }
+            }
+          
+            .whatsapp:hover{
+              &:hover{
+              background: #25D366;
+                .tooltip{
+                  background: #25D366;
+                  opacity: 1;
+                  &::before{
+                    background: #25D366;
+                    color: $white;
+                  }
+                }
+              }
             }
         }
-
-    
     }
+    >.wrapper{
+        width: 100%;
+        height: max-content;
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        margin: 5px 0;
+        padding: 10px 0;
+        flex-wrap: wrap;
+        section{
+            width: calc((100% / 3) - 50px);
+            min-width: 290px;
+            margin: 10px 5px;
+            padding: 10px 10px;
+            border-radius: 4px;
+            //box-shadow: 1px .5px .5px 0px rgba(0,0,0,0.75), -.5px -.5px 1px 0px rgba(0,0,0,0.75);
+            @media screen and (max-width: 480px){
+              &{
+                  width: 100%;
+              }
+            }
+            h3{
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              img{
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+              }
+              div{
+                width: 100%;
+                height: 20px;
+                font-size: 18px;
+                font-weight: 600;
+                text-align: center;
+              }
+         
+            }
+            .container{
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                flex-direction: column;
+                a{
+                    width: 100%;
+                    //color: $white;
+                    text-align: start;
+
+                    margin: 5px 10px;
+                    padding: 5px 10px;
+                    text-decoration: none;
+                    cursor: pointer;
+                    //color: $white;
+                    text-align: center;
+  
+                    &:hover{
+                      background: $light-blue;
+                    }
+                }
+            }
+        }
+      }
 
     hr{
         width: 80%;
@@ -44,7 +224,7 @@
         justify-content: space-evenly;
         
         //@media screen and (max-width: 478px) {
-        @media screen and (max-width: 480px) {
+        @media screen and (max-width: 480px){
             flex-wrap: wrap;
             gap: 10px;
         }
@@ -69,14 +249,14 @@
             cursor: pointer;
             outline: none;
             border: 1px solid var(--dark-blue);
-            background-color: transparent;
+            background: transparent;
             border-radius: 5px;
             z-index: 1000;
             transition: all 0.4s ease-in-out;
-        }
-        
-        .btn-top:hover{
-            background-color: var(--green);
+
+            &:hover{
+              background: var(--litht-green);
+          }
         }
     }
 }

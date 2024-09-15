@@ -1,7 +1,7 @@
 {
-  "short_name": "TAXA KENYA",
-  "name": "TAXA KENYA",
-  "description": "Fair Taxes, Just Kenya: Unite for Equity and Accountability",
+  "short_name": "POWERKING TIPS",
+  "name": "POWERKING TIPS",
+  "description": "Super Charge Your Bet With Free and Premium VIP Football Predictions",
   "icons": [
     {
       "src": "favicon.ico",
@@ -53,15 +53,13 @@
   "author": "Kibet Korir",
   "repository": {
     "type": "git",
-    "url": "https://github.com/kkibe/taxa-kenya"
+    "url": "https://github.com/kkibe/poerking-tips"
   },
   "license": "ISC/MIT",
   "keywords": [
-    "tax", "project", "kenya", "taxes", "policy", "tax law", "economics", "returns", "kra", "fiscal policy", 
-    "tax data", "tax research", "business", "kenya tax", "business today", "tax news", "tax insights",
-    "Debt Relief", "Debt Abolition", "Financial Freedom", "Economic Justice",
-    "Debt Counseling", "Financial Literacy", "Debt Management", "Debt Advocacy", "Community Outreach",
-    "Sustainable Debt Solutions", "Economic Empowerment", "Debt Forgiveness", "Financial Education"
+    "Football Predictions", "Betting Odds", "Live Scores", "Football Predictions", 
+    "Live Sports", "Football Results", "Football Fixtures", "Football Today", "Online Betting",
+    "Premier League", "Championship", "Super Sports", "Laliga", "Bundesliga", "Serie A", "Live Bet"
   ],
   "start_url": "/",
   "scope": "/",

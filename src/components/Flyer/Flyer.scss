@@ -1,0 +1,34 @@
+.flyer{
+    width: 100%;
+    min-height: calc(100vh - 95px);
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 5px;
+    position: relative;
+
+    .background{
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -5;
+        width: 100%;
+        opacity: 0.3;
+        object-fit: fill;
+        object-position: center;
+    }
+
+    *:not(.background){
+        max-width: 800px;
+        text-align: start;
+    }
+
+    .btn{
+        margin-left: auto;
+    }
+}

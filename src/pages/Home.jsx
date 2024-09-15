@@ -1,54 +1,99 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
+import { getNews, getTips } from '../firebase';
+import AppHelmet from '../components/AppHelmet';
 import Featured from '../components/Featured/Featured';
+import AppHead from '../components/AppHead/AppHead';
+import Flyer from '../components/Flyer/Flyer';
+import PostCard from '../components/PostCard/PostCard';
+import Loader from '../components/Loader/Loader';
 import Slider from '../components/Slider/Slider';
-import JobsFlyer from '../components/JobsFlyer/JobsFlyer';
-import NewsItem from '../components/NewsItem/NewsItem';
-import Services from '../components/Services/Services';
-import { getNews } from '../firebase';
-import { Helmet } from 'react-helmet-async';
-import InternetDialog from '../components/InternetDialog/InternetDialog';
+import { NavLink } from 'react-router-dom';
+import PayButton from '../components/PayButton';
+import Testimonials from '../components/Testimonials/Testimonials';
 
 export default function Home() {
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [tips, setTips] = useState([]);
+  const [dates, setDates] = useState([]);
+  const [newsPerPage] = useState(8);
 
+
+  useEffect(() => {
+    getNews(8, "all", setNews, setLoading);
+  }, [])
   
   const [isOnline] = useState(() =>{
     return navigator.onLine
   })
   
   useEffect(() =>{
-    getNews(4, "all", setNews, setLoading);
+    getNews(6, "all", setNews, setLoading);
   }, [isOnline]);
+
+  const handleDates = () =>{
+    const myDate = [];
+    for(let i = 0; i <= myDate.length; i++){
+      if(dates.includes(tips[i].date)){
+        return
+      } else {
+        dates.push(tips[i].date)
+      }
+    }
+    setDates(myDate)
+  }
+  useEffect(() =>{
+    getTips(6,  /*new Date().toLocalString()*/ '13th June 2023',setTips, setLoading);
+    tips.length > 0 && handleDates()
+  }, [isOnline, newsPerPage]);
   
+  useEffect(() =>{
+    tips.length > 0 && handleDates()
+  }, [tips]);
+
+  useEffect(() => {
+    loading && setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+  }, [loading]);
+  
+  useLayoutEffect(() => {
+    window.scrollTo(0, 0)
+  });
   return (
     <div className='Home'>
-          <Helmet>
-            <meta charSet="utf-8" />
-            <title>Taxa Kenya - Fair Taxes, Just Kenya: Unite for Equity and Accountability.</title>
-            <link rel="canonical" href={window.location.hostname} />
-            <base href={window.location.hostname}></base>
-            <meta name="description" content={"Taxa Kenya is dedicated to combating tax discrimination and injustices in Kenya. Through education, advocacy, and community engagement, we are committed to advocating for fair and equitable tax policies that benefit all citizens."}/>
-          </Helmet>
-      {!isOnline && <InternetDialog />}
-      <Slider />
-      <h1 id='services'>What we offer:</h1>
-      <Services />
-      <Featured />
+      <AppHelmet title={"Powerking Tips"}/>
+      <Flyer />
       {
-        news.length > 0 && <><h1>News Feed</h1>
-        <h2>Read Our Trending Articles</h2>
-        </>
+          news.length && <h1>Free Tips</h1>
       }
-
-      <div className='post-container'>
+      <div className="wrapper">
         {
-          news.length > 0 && news.map((item) => {
-            return <NewsItem key={item.id} data={item}/>
+          tips.length > 0 && tips.filter((tip) => tip.premium === false).map((tip) => {
+            return <PostCard active setActive key={tip.id} data={tip}/>
           })
         }
+        {
+            ((!tips.length > 0) && loading) && <Loader />
+        }
+        <NavLink to={"/tips"}>more tips &raquo;</NavLink>
       </div>
-      <JobsFlyer />
+      <h1>Pricing</h1>
+      <AppHead />
+      {
+          news.length && <><h1>Sports News</h1><h2>Trending Articles</h2></> 
+      }
+      {news.length && <Slider data={news}/>}
+      <div className="jobs-flyer" style={{width: '100%', padding: '5px'}}>
+          <h1>Oh! You have digged our website and would like to win big?</h1>
+          <h1>Get VIP memmbership for 1 month with as little as $100.</h1>
+        <PayButton text="Subscribe Now"/>
+      </div>
+      
+      <h1>Testimonials</h1>
+      <h2>What clients says:</h2>
+      <Testimonials />
+      <Featured />
     </div>
   )
 }

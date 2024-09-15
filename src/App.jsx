@@ -1,28 +1,30 @@
 import { Routes, Route} from "react-router-dom";
 import { HelmetProvider, HelmetData  } from "react-helmet-async";
 import { useEffect, useState, useContext} from 'react';
-import { renderToString } from 'react-dom/server';
 import { AuthContext } from './AuthContext'
 
 import Navbar from './components/Navbar/Navbar';
-import Newsletter from './components/Newsletter/Newsletter';
 import Loader from './components/Loader/Loader';
-import Donate from './components/Donate/Donate';
 import Footer from './components/Footer/Footer';
 
 import Home from './pages/Home';
 import News from './pages/News';
 import SingleNews from './pages/SingleNews';
 import Admin from './pages/Admin';
-import AdminAuth from './pages/AdminAuth';
 import About from './pages/About';
 import Error from './pages/Error';
+import Topbar from "./components/Topbar/Topbar";
+import Tips from "./pages/Tips";
+import { Login } from "./pages/Login";
+import Register from "./pages/Register";
+import Ticket from "./pages/Ticket/Ticket";
 
 const helmetData = new HelmetData({});
 
 function App() {
   const [loading, setLoading] = useState(false);
   const { currentUser } = useContext(AuthContext);
+  const [isPremium, setIsPremium] = useState(true)
   
   useEffect(() => {
     if(loading){
@@ -32,7 +34,14 @@ function App() {
         setLoading(false);
       }
     }
+    
   }, [loading]);
+
+
+  
+  useEffect(() => {
+    currentUser && console.log(currentUser)//getuser(currentUser)
+}, [currentUser])
 
   return (
     <HelmetProvider>
@@ -42,21 +51,26 @@ function App() {
       }
       {
       !loading && <>
+      <Topbar isPremium = {isPremium}/>
       <Navbar />
-      <Donate />
       <Routes>
           <Route path='/' element={<Home />} />
-          <Route path='news' element={<News />} />
-          <Route path='news/:id' element={<SingleNews />} />
-          <Route path='admin' element={currentUser ? <Admin /> : <AdminAuth />}  />
+          <Route path='tips' element={<Tips />} />
+          <Route path='pay' element={currentUser ? <Ticket /> : <Login />}  />
+          <Route path='blogs' element={<News />} />
+          <Route path='blogs/:id' element={<SingleNews />} />
+          <Route path='admin' element={currentUser ? <Admin /> : <Login />}  />
           <Route path='about' element={<About />} />
           <Route path='*' element={<Error />} />
+          <Route path='login' element={<Login />} />
+          <Route path='register' element={<Register />} />
+          
       </Routes>
-      <Newsletter />
-      <Footer />
+      <Footer/>
       </>
       }
     </div>
+    
     </HelmetProvider>
   );
 }
