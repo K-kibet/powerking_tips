@@ -4,7 +4,7 @@ export default function PayButton({amount, text}) {
     //secret_key = ISSecretKey_live_82f7f0b7-1037-4ca2-99d1-36e09dd0c849
     //publishable_key = ISPubKey_live_19bc94db-d807-478e-aecf-588264f0d159
   new window.IntaSend({
-    publicAPIKey: 'ISPubKey_test_91ffc81a-8ac4-419e-8008-7091caa8d73f',
+    publicAPIKey: 'ISPubKey_live_bb736708-132b-4aa0-b7dc-73895203c678',
     live: false //or true for live environment
   }).on("COMPLETE", (response) => { console.log("COMPLETE:", response) })
     .on("FAILED", (response) => { console.log("FAILED", response) })
